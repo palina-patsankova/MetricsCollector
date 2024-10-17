@@ -14,6 +14,8 @@
         <maven.surefire.plugin.version>3.2.5</maven.surefire.plugin.version>
         <webdrivermanager.version>5.8.0</webdrivermanager.version>
         <selenium.version>4.21.0</selenium.version>
+        <cucumber.version>7.14.1</cucumber.version>
+        <cucumber.expressions.version>17.1.0</cucumber.expressions.version>
         <assertj.core.version>3.25.3</assertj.core.version>
         <commons.io.version>2.16.1</commons.io.version>
         <rest.assured.version>5.4.0</rest.assured.version>
@@ -23,11 +25,14 @@
         <lombok.version>1.18.32</lombok.version>
         <awaitility.version>4.2.1</awaitility.version>
         <java.faker.version>1.0.2</java.faker.version>
+        <pdfbox.version>2.0.26</pdfbox.version>
         <junit.jupiter.version>5.10.2</junit.jupiter.version>
         <junit.platform.version>1.10.0</junit.platform.version>
         <log4j.core.version>2.23.1</log4j.core.version>
+        <mail.version>1.4.7</mail.version>
+        <commons.email.version>1.6.0</commons.email.version>
         <jsoup.version>1.17.2</jsoup.version>
-
+        <itextpdf.version>5.5.13.3</itextpdf.version>
         <devtools.version>4.9.1</devtools.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <allure-cucumber7-jvm>2.27.0</allure-cucumber7-jvm>
@@ -139,6 +144,45 @@
             <version>${selenium.version}</version>
         </dependency>
         <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-java</artifactId>
+            <version>${cucumber.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-core</artifactId>
+            <version>${cucumber.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-java8</artifactId>
+            <version>${cucumber.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-picocontainer</artifactId>
+            <version>${cucumber.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-junit-platform-engine</artifactId>
+            <version>${cucumber.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-expressions</artifactId>
+            <version>${cucumber.expressions.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>datatable</artifactId>
+            <version>${cucumber.version}</version>
+        </dependency>
+        <dependency>
             <groupId>org.assertj</groupId>
             <artifactId>assertj-core</artifactId>
             <version>${assertj.core.version}</version>
@@ -187,6 +231,11 @@
             <groupId>com.github.javafaker</groupId>
             <artifactId>javafaker</artifactId>
             <version>${java.faker.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.pdfbox</groupId>
+            <artifactId>pdfbox</artifactId>
+            <version>${pdfbox.version}</version>
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
@@ -241,9 +290,24 @@
             <version>${log4j.core.version}</version>
         </dependency>
         <dependency>
+            <groupId>javax.mail</groupId>
+            <artifactId>mail</artifactId>
+            <version>${mail.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-email</artifactId>
+            <version>${commons.email.version}</version>
+        </dependency>
+        <dependency>
             <groupId>org.jsoup</groupId>
             <artifactId>jsoup</artifactId>
             <version>${jsoup.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.itextpdf</groupId>
+            <artifactId>itextpdf</artifactId>
+            <version>${itextpdf.version}</version>
         </dependency>
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
