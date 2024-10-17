@@ -71,8 +71,7 @@ public class QaLeadReport {
     public void getTotalNumberOfTicketsInTheSprint() {
         String jql = "project =" + propertyManager.getProperty("projectLetters") +
                 " AND component='" + propertyManager.getProperty("component") + "'" +
-                " AND sprint='" + getSprintInfo().getValues()
-                .get(getSprintInfo().getValues().size() - 1).getName() + "'";
+                " AND sprint='" + getSprintInfo().getValues().get(getSprintInfo().getValues().size() - 1).getName() + "'";
         ResponseDto json = mainAdapter.getListOfTasksByJql(jql);
         metricsValues.put("Total number of tasks in the sprint", json.getIssues().size());
         metricsJqls.put("Total number of tasks in the sprint", jql);
@@ -81,15 +80,13 @@ public class QaLeadReport {
     @Test
     @Order(value = 3)
     public void getTotalNumberOfQaPoints() {
-        String jql = "project =" + propertyManager.getProperty
-                ("projectLetters") +
+        String jql = "project =" + propertyManager.getProperty("projectLetters") +
                 " AND component='" + propertyManager.getProperty("component") + "'" +
-                " AND sprint='" + getSprintInfo().getValues()
-                .get(getSprintInfo().getValues().size() - 1).getName() + "'" +
+                " AND sprint='" + getSprintInfo().getValues().get(getSprintInfo().getValues().size() - 1).getName() + "'" +
                 " AND \"QA Points[Number]\" IS NOT EMPTY" +
                 " AND status=Done" +
-                " AND resolutionDate > \"" + startDate + "\"" +
-                " AND resolutionDate < \"" + endDate + "\"";
+                " AND resolutionDate >= \"" + startDate + "\"" +
+                " AND resolutionDate <= \"" + endDate + "\"";
         ResponseDto json = mainAdapter.getListOfTasksByJql(jql);
         double totalNumberOfQaPoints = 0.0;
         for (IssueDto issue : json.getIssues()) {
@@ -99,11 +96,9 @@ public class QaLeadReport {
             }
         }
 
-        String jql2 = "project =" + propertyManager.getProperty
-                ("projectLetters") +
+        String jql2 = "project =" + propertyManager.getProperty("projectLetters") +
                 " AND component='" + propertyManager.getProperty("component") + "'" +
-                " AND sprint='" + getSprintInfo().getValues()
-                .get(getSprintInfo().getValues().size() - 1).getName() + "'" +
+                " AND sprint='" + getSprintInfo().getValues().get(getSprintInfo().getValues().size() - 1).getName() + "'" +
                 " AND \"QA Points[Number]\" IS NOT EMPTY";
         ResponseDto json2 = mainAdapter.getListOfTasksByJql(jql2);
         double totalNumberOfQaPoints2 = 0.0;
@@ -118,21 +113,19 @@ public class QaLeadReport {
         metricsValues.put("Total number of qa points in the sprint Actual/Expected",
                 actualNumber + "/" + expectedNumber);
         metricsJqls.put("Total number of qa points in the sprint Actual/Expected",
-                "JQL Actual: " + jql + " \n JQL Expected: " + jql2);
+                "JQL Actual: " + jql + " <br> <br>JQL Expected: " + jql2);
     }
 
     @Test
     @Order(value = 4)
     public void getNumberOfTestedTickets() {
-        String jql = "project =" + propertyManager.getProperty
-                ("projectLetters") +
+        String jql = "project =" + propertyManager.getProperty("projectLetters") +
                 " AND component='" + propertyManager.getProperty("component") + "'" +
-                " AND sprint='" + getSprintInfo().getValues()
-                .get(getSprintInfo().getValues().size() - 1).getName() + "'" +
-                " AND \"QA Points[Number]\" IS NOT EMPTY" +
+                " AND sprint='" + getSprintInfo().getValues().get(getSprintInfo().getValues().size() - 1).getName() + "'" +
+                " AND 'QA Points[Number]' IS NOT EMPTY" +
                 " AND status=Done" +
-                " AND resolutionDate > \"" + startDate + "\"" +
-                " AND resolutionDate < \"" + endDate + "\"";
+                " AND resolutionDate >= \"" + startDate + "\"" +
+                " AND resolutionDate <= \"" + endDate + "\"";
         ResponseDto json = mainAdapter.getListOfTasksByJql(jql);
         metricsValues.put("Number of tested tickets at the end of the sprint", json.getIssues().size());
         metricsJqls.put("Number of tested tickets at the end of the sprint", jql);
@@ -141,19 +134,18 @@ public class QaLeadReport {
     @Test
     @Order(value = 5)
     public void getNumberOfNotTestedTicketsButTheyAreReadyForTesting() {
-        String jql = "project =" + propertyManager.getProperty
-                ("projectLetters") +
+        String jql = "project =" + propertyManager.getProperty("projectLetters") +
                 " AND component='" + propertyManager.getProperty("component") + "'" +
-                " AND status = 'Ready for QA' AND sprint='" + getSprintInfo().getValues()
-                .get(getSprintInfo().getValues().size() - 1).getName() + "'";
+                " AND status = 'Ready for QA'" +
+                " AND sprint='" + getSprintInfo().getValues().get(getSprintInfo().getValues().size() - 1).getName() + "'";
         ResponseDto json = mainAdapter.getListOfTasksByJql(jql);
 
         metricsValues.put("Number of tickets which are ready for testing, but not tested yet", json.getIssues().size());
         metricsJqls.put("Number of tickets which are ready for testing, but not tested yet", jql);
 
         String jql2 = "project =" + propertyManager.getProperty("projectLetters") +
-                " AND status = 'in QA' AND sprint='" + getSprintInfo().getValues()
-                .get(getSprintInfo().getValues().size() - 1).getName() + "'";
+                " AND status = 'in QA' " +
+                "AND sprint='" + getSprintInfo().getValues().get(getSprintInfo().getValues().size() - 1).getName() + "'";
         ResponseDto json2 = mainAdapter.getListOfTasksByJql(jql2);
 
         metricsValues.put("Number of tickets which are in testing now, but testing is not finished",
@@ -164,20 +156,18 @@ public class QaLeadReport {
     @Test
     @Order(value = 6)
     public void getNumberOfTicketsWhereTestingIsNotRequired() {
-        String jql = "project =" + propertyManager.getProperty
-                ("projectLetters") +
+        String jql = "project =" + propertyManager.getProperty("projectLetters") +
                 " AND component='" + propertyManager.getProperty("component") + "'" +
-                " AND sprint='" + getSprintInfo().getValues()
-                .get(getSprintInfo().getValues().size() - 1).getName() + "'" +
+                " AND sprint='" + getSprintInfo().getValues().get(getSprintInfo().getValues().size() - 1).getName() + "'" +
                 " AND \"QA Points[Number]\" IS EMPTY" +
                 " AND status=Done" +
                 " AND \"Assigned QA[User Picker (multiple users)]\" = null" +
-                " AND resolutionDate > \"" + startDate + "\"" +
-                " AND resolutionDate < \"" + endDate + "\"";
+                " AND resolutionDate >= \"" + startDate + "\"" +
+                " AND resolutionDate <= \"" + endDate + "\"";
         ResponseDto json = mainAdapter.getListOfTasksByJql(jql);
 
-        metricsValues.put("Number of tickets where testing weren't required", json.getIssues().size());
-        metricsJqls.put("Number of tickets where testing weren't required", jql);
+        metricsValues.put("Number of tickets where testing was not required", json.getIssues().size());
+        metricsJqls.put("Number of tickets where testing was not required", jql);
     }
 
     @Test
@@ -186,10 +176,9 @@ public class QaLeadReport {
         String jql = "project =" + propertyManager.getProperty
                 ("projectLetters") +
                 " AND component='" + propertyManager.getProperty("component") + "'" +
-                " AND sprint='" + getSprintInfo().getValues()
-                .get(getSprintInfo().getValues().size() - 1).getName() + "'" +
-                " AND resolutionDate > \"" + startDate + "\"" +
-                " AND resolutionDate < \"" + endDate + "\"" +
+                " AND sprint='" + getSprintInfo().getValues().get(getSprintInfo().getValues().size() - 1).getName() + "'" +
+                " AND resolutionDate >= \"" + startDate + "\"" +
+                " AND resolutionDate <= \"" + endDate + "\"" +
                 " AND \"QA Points[Number]\" IS NOT EMPTY" +
                 " AND status=Done" +
                 " AND status WAS NOT 'QA FAILED'";
@@ -205,22 +194,20 @@ public class QaLeadReport {
         String jql = "project=" + propertyManager.getProperty
                 ("projectLetters") +
                 " AND component='" + propertyManager.getProperty("component") + "'" +
-                " AND sprint='" + getSprintInfo().getValues()
-                .get(getSprintInfo().getValues().size() - 1).getName() + "'" +
+                " AND sprint='" + getSprintInfo().getValues().get(getSprintInfo().getValues().size() - 1).getName() + "'" +
                 " AND \"QA Points[Number]\" IS NOT EMPTY" +
-                " AND status CHANGED from 'In QA' TO 'QA FAILED'";
+                " AND status CHANGED from 'In QA' TO 'QA FAILED' DURING (" + startDate + ", " + endDate + ")";
         ResponseDto json = mainAdapter.getListOfTasksByJql(jql);
 
         String jql2 = "project =" + propertyManager.getProperty
                 ("projectLetters") +
                 " AND component='" + propertyManager.getProperty("component") + "'" +
-                " AND sprint='" + getSprintInfo().getValues()
-                .get(getSprintInfo().getValues().size() - 1).getName() + "'" +
-                " AND resolutionDate > \"" + startDate + "\"" +
-                " AND resolutionDate < \"" + endDate + "\"" +
+                " AND sprint='" + getSprintInfo().getValues().get(getSprintInfo().getValues().size() - 1).getName() + "'" +
+                " AND resolutionDate >= \"" + startDate + "\"" +
+                " AND resolutionDate <= \"" + endDate + "\"" +
                 " AND \"QA Points[Number]\" IS NOT EMPTY" +
                 " AND status=Done" +
-                " AND status CHANGED from 'In QA' TO 'QA FAILED'";
+                " AND status CHANGED from 'In QA' TO 'QA FAILED' DURING (" + startDate + ", " + endDate + ")";
         ResponseDto json2 = mainAdapter.getListOfTasksByJql(jql2);
 
         metricsValues.put(
@@ -229,7 +216,7 @@ public class QaLeadReport {
         metricsJqls.put(
                 "Number of task which was reopened during sprint: Total number / Reopened, but moved to Done within " +
                         "the sprint",
-                "JQL for Total number: " + jql + " \n JQL for Reopened, but moved to Done within the sprint: " + jql2);
+                "JQL for Total number: " + jql + " <br><br>JQL for Reopened, but moved to Done within the sprint: " + jql2);
         List<String> listOfIssues = new ArrayList<>();
 
         int counter = 0;
